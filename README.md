@@ -1,8 +1,8 @@
 #Отправка SMS из Ruby приложения через sms48.ru
 
-SmsSend::count - Количество оставшихся SMS
+Sms48::count - Количество оставшихся SMS
 
-SmsSend::snd from, to, msg, status_url
+Sms48::snd from, to, msg, status_url
 
 status_url - на этот URL будет передаваться с параметрами статус доставки.
 Пример:
