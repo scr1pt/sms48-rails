@@ -18,7 +18,7 @@
 #   EMAIL = 'yourmail@mail.com'
 #   PASS = 'yourpassword'
 # end
-
+require "cgi"
 require 'net/http'
 require 'digest'
 
@@ -30,7 +30,7 @@ module Sms48
     msg = msg.encode("cp1251")
 
     msg = URI::encode(msg);
-    dlr = URI::encode(status_url);
+    dlr = CGI::escape(status_url);
 
     checksumm = md5("#{EMAIL}#{md5(PASS)}#{phone}");
     url = "/send_sms.php?login=#{EMAIL}&to=#{phone}&msg=#{msg}&from=#{from}&check2=#{checksumm}&dlr_url=#{dlr}"
