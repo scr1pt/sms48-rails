@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   s.name        = 'sms48-rails'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2013-07-27'
   s.summary     = "sms48-rails"
   s.description = "Sending sms with sms48.ru"

@@ -4,12 +4,12 @@
 #SmsSend::snd from, to, msg, status_url
 
 #status_url - на этот URL будет передаваться с
-#параметрами статус доставки 
+#параметрами статус доставки
 #пример: http://example.com/sms/1/%d
 #(%d - статус, значение 8 - отправлено,
 #1 - доставлено, 2 - не удалось)
 
-# До использования необходимо установить логин 
+# До использования необходимо установить логин
 # с паролем к sms48.ru следующим образом:
 # При использовании Rails
 # в файле /config/initializers/sms48.rb
@@ -24,18 +24,22 @@ require 'digest'
 
 module Sms48
 
-  def self.snd from, to, msg, status_url
+  def self.snd(from, to, msg, status_url, debug = dbg)
     phone = get_phone to
-    
+
     msg = msg.encode("cp1251")
 
     msg = URI::encode(msg);
     dlr = URI::encode(status_url);
 
-    checksumm = md5("#{EMAIL}#{md5(PASS)}#{phone}");  
+    checksumm = md5("#{EMAIL}#{md5(PASS)}#{phone}");
+    url = "/send_sms.php?login=#{EMAIL}&to=#{phone}&msg=#{msg}&from=#{from}&check2=#{checksumm}&dlr_url=#{dlr}"
 
-    res = Net::HTTP.get('sms48.ru', 
-"/send_sms.php?login=#{EMAIL}&to=#{phone}&msg=#{msg}&from=#{from}&check2=#{checksumm}&dlr_url=#{dlr}")
+    if dbg
+      puts url
+    end
+
+    res = Net::HTTP.get('sms48.ru', url)
     return res == "1"
   end
 
