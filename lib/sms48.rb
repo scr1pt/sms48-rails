@@ -24,7 +24,7 @@ require 'digest'
 
 module Sms48
 
-  def self.snd(from, to, msg, status_url, debug = dbg)
+  def self.snd(from, to, msg, status_url, dbg = false )
     phone = get_phone to
 
     msg = msg.encode("cp1251")
