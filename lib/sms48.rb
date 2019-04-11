@@ -24,16 +24,23 @@ require 'digest'
 
 module Sms48
 
-  def self.snd(from, to, msg, status_url, dbg = false )
+  def self.snd(from, to, msg, status_url, dbg = false, h = nil )
     phone = get_phone to
 
     msg = msg.encode("cp1251")
 
     msg = URI::encode(msg);
     dlr = CGI::escape(status_url);
-
-    checksumm = md5("#{EMAIL}#{md5(PASS)}#{phone}");
-    url = "/send_sms.php?login=#{EMAIL}&to=#{phone}&msg=#{msg}&from=#{from}&check2=#{checksumm}&dlr_url=#{dlr}"
+    if h.blank?
+      l = {
+        email: EMAIL,
+        password: PASS
+      }
+    else
+      l = h
+    end
+    checksumm = md5("#{l[:email]}#{md5(l[:password])}#{phone}");
+    url = "/send_sms.php?login=#{l[:email]}&to=#{phone}&msg=#{msg}&from=#{from}&check2=#{checksumm}&dlr_url=#{dlr}"
 
     if dbg
       puts url
